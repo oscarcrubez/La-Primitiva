@@ -48,10 +48,82 @@ public class CruañasOscar_Primitiva {
      * @since 1.0
      */
     private static int[] introduirAposta(){
-        System.out.println("Introdueix la teva aposta: ");
-        int[] aposta = null;
+        Scanner scanner = new Scanner(System.in);
+
+        int x = 0;
+        boolean valorCorrecte = false;
+
+        int[] aposta= new int[7];
 
         //TODO: Fer el codi del mètode
+
+        do {
+            for (int i = 0; i < aposta.length - 1; i++) {
+                System.out.println("Introdueix el #" + (i+1) + " número de la primitiva (1-49): ");
+                valorCorrecte = scanner.hasNextInt();
+
+                if (!valorCorrecte) {
+                    System.out.println("ERROR. Valor no enter.");
+                    scanner.nextLine();
+                    break;
+
+                } else {
+                    x = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (x < 1 || x > 49) {
+                        System.out.println("Opció fora de rang.");
+                        valorCorrecte = false;
+                        break;
+
+                    } else {
+
+                        for (int j = 0; j < i; j++) {
+                            if (aposta[j] == x) {
+                                System.out.println("ERROR. Valor repetit.");
+                                valorCorrecte = false;
+                                break;
+
+                            } else {
+                                aposta[i] = x;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } while (!valorCorrecte);
+
+        do {
+            System.out.println("Introdueix el reintegrament (0-9)");
+            valorCorrecte = scanner.hasNextInt();
+
+            if (!valorCorrecte) {
+                System.out.println("ERROR. Valor no enter.");
+                scanner.nextLine();
+                break;
+
+            } else {
+                x = scanner.nextInt();
+                scanner.nextLine();
+
+                if (x < 0 || x > 9) {
+                    System.out.println("Valor fora de rang.");
+                    valorCorrecte = false;
+                    break;
+
+                }else {
+                    aposta[6] = x;
+                }
+
+            }
+        } while (!valorCorrecte);
+
+        System.out.println("El teu número: ");
+        for (int i = 0; i < aposta.length; i++) {
+            System.out.print(aposta[i] + " ");
+        }
+        System.out.println();
 
         return aposta;
     }
