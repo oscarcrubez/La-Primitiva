@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 /**
  * Programa de simulació de La Primitiva
@@ -52,6 +53,7 @@ public class CruañasOscar_Primitiva {
 
         int x = 0;
         boolean valorCorrecte = false;
+        boolean repetit = false;
 
         int[] aposta= new int[7];
 
@@ -82,11 +84,13 @@ public class CruañasOscar_Primitiva {
                             if (aposta[j] == x) {
                                 System.out.println("ERROR. Valor repetit.");
                                 valorCorrecte = false;
+                                repetit = true;
                                 break;
 
-                            } else {
-                                aposta[i] = x;
                             }
+                        }
+                        if (!repetit) {
+                            aposta[i] = x;
                         }
                     }
                 }
@@ -123,7 +127,7 @@ public class CruañasOscar_Primitiva {
         for (int i = 0; i < aposta.length; i++) {
             System.out.print(aposta[i] + " ");
         }
-        System.out.println();
+        System.out.println("");
 
         return aposta;
     }
@@ -134,9 +138,31 @@ public class CruañasOscar_Primitiva {
      * @since 1.0
      */
     private static int[] calcularCombinacioGuanyadora(){
-        int[] combinacio = null;
+        Random random = new Random();
+        int[] combinacio = new int[7];
+        boolean valorCorrecte = true;
 
         //TODO: Fer el codi del mètode
+        for (int i = 0; i < 6; i++) {
+            combinacio[i] = (int) (Math.random() * 49);
+            do {
+                valorCorrecte = true;
+
+                if (i > 0) {
+                    for (int j = 0; j < i; j++) {
+                        if (combinacio[j] == combinacio[i]) {
+                            valorCorrecte = false;
+                            break;
+                        } else {
+                            valorCorrecte = true;
+                        }
+                    }
+                }
+            } while (!valorCorrecte);
+
+            combinacio[6] = (int) (Math.random() * 10);
+
+        }
 
         return combinacio;
     }
@@ -154,71 +180,27 @@ public class CruañasOscar_Primitiva {
         boolean reintregrament = false;
 
         //Comprobar encerts a la combinació
-        //TODO: Fer el codi del mètode
-
-        //Comprobar reintegrament
-        //TODO: Fer el codi del mètode
-
-        //Calcular premi
-        //TODO: Fer el codi del mètode
-
-        return premi;
-    }
-
-    /**
-     * Aquest mètode llegeix un enter per teclat dins d'un domini determinat
-     * @param missatge parametritzat per a mostrar a l'usuari@
-     * @param min valor min acceptat
-     * @param max valor max acceptat
-     * @return retorna un int
-     * @since 1.0
-     */
-    private static int llegirInt(String missatge, int min, int max) {
-        Scanner llegir = new Scanner(System.in);
-        int x = 0;
-        boolean valorCorrecte = false;
-        do{
-            System.out.println(missatge);
-            valorCorrecte = llegir.hasNextInt();
-            if (!valorCorrecte){
-                System.out.println("ERROR: Valor no enter.");
-                llegir.nextLine();
-            }else{ // Tinc un enter
-                x = llegir.nextInt();
-                llegir.nextLine();
-                if (x < min || x > max){
-                    System.out.println("Opció no vàlida");
-                    valorCorrecte = false;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (aposta[i] == combinacioGuanyadora[j]) {
+                    encerts++;
                 }
             }
-        }while(!valorCorrecte);
+        }
 
-        return x;
-    }
+        //Comprobar reintegrament
+        if (aposta[6] == combinacioGuanyadora[6]) {
+            reintregrament = true;
+        }
 
-    /**
-     * Aquest mètode serveix per capturar floats des de teclat amb control d'errors
-     * @param missatge
-     * @return
-     * @since 1.0
-     */
-    private static float llegirFloat(String missatge){
-        Scanner llegir = new Scanner(System.in);
-        float x = 0;
-        boolean valorCorrecte = false;
-        do{
-            System.out.print(missatge);
-            valorCorrecte = llegir.hasNextFloat();
+        //Calcular premi
+        premi = encerts * 20;
 
-            if (!valorCorrecte){
-                System.out.println("ERROR: Valor no float.");
-            }else{
-                x = llegir.nextFloat();
-            }
-            llegir.nextLine();
-        }while(!valorCorrecte);
+        if (reintregrament) {
+            premi += 6;
+        }
 
-        return x;
+        return premi;
     }
 
 }
