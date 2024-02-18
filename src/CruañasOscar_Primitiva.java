@@ -1,13 +1,15 @@
 import java.util.Scanner;
 import java.util.Random;
 
+// LINK GITHUB:
+
 /**
  * Programa de simulació de La Primitiva
- * @auhor //TODO: Nom Alumne
+ * @auhor Oscar Cruañas Gonzalbez
  * @version 1.0
- * @date //TODO: data
+ * @date 18/02/2024
  */
-//TODO: Fer refractor per canviar el nom de la classe
+
 public class CruañasOscar_Primitiva {
     /**
      * Mètode main executable
@@ -19,14 +21,17 @@ public class CruañasOscar_Primitiva {
     }
 
     /**
-     * //TODO: Completar
+     * A partir d'aquest mètode s'executen els altres mètodes per poder jugar a La Primitva
      * @since 1.0
      */
     private static void menuPrincipal(){
+        Scanner scanner = new Scanner(System.in);
+        int item;
         System.out.println("***** PRIMITIVA ******");
 
         int[] aposta = introduirAposta();
         int[] combinacioGuanyadora = calcularCombinacioGuanyadora();
+
         int premi;
 
         if (combinacioGuanyadora != null) {
@@ -44,22 +49,21 @@ public class CruañasOscar_Primitiva {
     }
 
     /**
-     * //TODO: Completasr
-     * @return //TODO: Completar
+     * Aquest mètode capta els números d'aposta introduïts per l'usuari.
+     * @return l'array amb els números introduïts per l'usuari i el reintegrament.
      * @since 1.0
      */
     private static int[] introduirAposta(){
         Scanner scanner = new Scanner(System.in);
 
         int x = 0;
-        boolean valorCorrecte = false;
+        boolean valorCorrecte = true;
         boolean repetit = false;
 
         int[] aposta= new int[7];
 
-        //TODO: Fer el codi del mètode
-
         do {
+            valorCorrecte = true;
             for (int i = 0; i < aposta.length - 1; i++) {
                 System.out.println("Introdueix el #" + (i+1) + " número de la primitiva (1-49): ");
                 valorCorrecte = scanner.hasNextInt();
@@ -124,17 +128,18 @@ public class CruañasOscar_Primitiva {
         } while (!valorCorrecte);
 
         System.out.println("El teu número: ");
-        for (int i = 0; i < aposta.length; i++) {
+        for (int i = 0; i < aposta.length - 1; i++) {
             System.out.print(aposta[i] + " ");
         }
+        System.out.println("Reintegrament: " + aposta[6]);
         System.out.println("");
 
         return aposta;
     }
 
     /**
-     * //TODO: Completar
-     * @return //TODO: Completar
+     * Aquest mètode genera els números guanyadors i el reintegrament de forma aleatòria.
+     * @return l'array amb els números guanyadors i el reintegrament.
      * @since 1.0
      */
     private static int[] calcularCombinacioGuanyadora(){
@@ -142,7 +147,6 @@ public class CruañasOscar_Primitiva {
         int[] combinacio = new int[7];
         boolean valorCorrecte = true;
 
-        //TODO: Fer el codi del mètode
         for (int i = 0; i < 6; i++) {
             combinacio[i] = (int) (Math.random() * 49);
             do {
@@ -168,10 +172,10 @@ public class CruañasOscar_Primitiva {
     }
 
     /**
-     * //TODO: Completar
-     * @param aposta //TODO: Completar
-     * @param combinacioGuanyadora //TODO: Completar
-     * @return //TODO: Completar
+     * Aquest mètode compara els arrays de números de l'usuari el dels números guanyadors, definint el premi corresponent.
+     * @param aposta array amb els números apostats per l'usuari
+     * @param combinacioGuanyadora array amb els números guanyadors
+     * @return el premi segons els encerts de l'usuari
      * @since 1.0
      */
     private static int comprovarEncerts(int[] aposta, int[] combinacioGuanyadora){
@@ -202,5 +206,4 @@ public class CruañasOscar_Primitiva {
 
         return premi;
     }
-
 }
